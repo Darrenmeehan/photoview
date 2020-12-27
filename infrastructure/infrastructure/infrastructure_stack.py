@@ -56,12 +56,6 @@ class InfrastructureStack(core.Stack):
         # Revisit instance sizes https://aws.amazon.com/ec2/instance-types/
         instance_type = ec2.InstanceType("t3a.medium")
 
-        # namespace_options = ecs.CloudMapNamespaceOptions(
-        #     name="photoview",
-        #     vpc=vpc,
-        #     type=aws_servicediscovery.NamespaceType.DNS_PRIVATE,
-        # )
-
         capacity_options = ecs.AddCapacityOptions(
             can_containers_access_instance_role=False,
             desired_capacity=1,
