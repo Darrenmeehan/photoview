@@ -68,7 +68,6 @@ class InfrastructureStack(core.Stack):
             "MyCluster",
             vpc=vpc,
             capacity=capacity_options,
-            # default_cloud_map_namespace=namespace_options
         )
         sd_namespace = cluster.add_default_cloud_map_namespace(
             name="svc.test.local",
@@ -80,8 +79,6 @@ class InfrastructureStack(core.Stack):
             namespace=sd_namespace,
             load_balancer=True
         )
-        # cluster.add_default_cloud_map_namespace()
-
         app_port_mapping = ecs.PortMapping(
             container_port=24,
             host_port=24,
@@ -89,29 +86,6 @@ class InfrastructureStack(core.Stack):
         # FIXME Add in https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/ContainerDependency.html
         # https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/DockerVolumeConfiguration.html
         # https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/Secret.html
-        # app_task_definition = ecs.Ec2TaskDefinition(
-        #     self,
-        #     "AppTaskDef",
-        #     network_mode=ecs.NetworkMode.AWS_VPC,
-        #     # container_definition=app_container_definition,
-        # )
-        # app_container_definition = ecs.ContainerDefinition(
-        #     self,
-        #     "AppContainerDef",
-        #     task_definition=app_task_definition,
-        #     image=ecs.ContainerImage.from_registry("viktorstrate/photoview:1"),
-        #     memory_limit_mib=512,
-        #     environment={
-        #         "MYSQL_URL": "10.0.3.7/photoview",
-        #         "API_LISTEN_IP": "photoview",
-        #         "API_LISTEN_PORT": "80",
-        #         "PHOTO_CACHE": "/app/cache",
-        #     },
-        #     logging=ecs.AwsLogDriver(stream_prefix="PhotoviewDbContainer")
-        # )
-        # app_container_definition.add_port_mapping(app_port_mapping)
-
-
         ecs_patterns.ApplicationLoadBalancedEc2Service(self, "MyPhotoService",
             cluster=cluster,            # Required
             cpu=256,                    # Default is 256
@@ -147,17 +121,6 @@ class InfrastructureStack(core.Stack):
             },
             logging=ecs.AwsLogDriver(stream_prefix="PhotoviewDbContainer")
         )
-
-        # db_cloud_map_options = ecs.CloudMapOptions(
-        #     name="DbMappings",
-        #     cloud_map_namespace=namespace_options,
-        #     dns_record_type=aws_servicediscovery.DnsRecordType.A,
-        #     # failure_threshold=
-        #     # dns_ttl="60",
-        #     # failure_threshold,
-        #     # name=,
-        # )
-        # Instantiate an Amazon ECS Service
         ecs_service = ecs.Ec2Service(self, "DbService",
             cluster=cluster,
             task_definition=task_definition,
@@ -165,19 +128,4 @@ class InfrastructureStack(core.Stack):
                 cloud_map_namespace=sd_namespace,
                 name="db",
             ),
-            # cloud_map_options=db_cloud_map_options,
         )
-        # ecs_service.enable_cloud_map(
-        #     cloud_map_namespace=namespace_options,
-        #     dns_record_type=aws_servicediscovery.DnsRecordType.A,
-        # )
-        # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonS3.html
-        # volume = ecs.Volume(
-        #     self,
-        #     "Volume",
-        #     # Use an Elastic FileSystem
-        #     name="mydatavolume",
-        #     efs_volume_configuration=ecs.EfsVolumeConfiguration(
-        #         file_system_id="EFS"
-        #     )
-        # )
