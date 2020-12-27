@@ -12,7 +12,6 @@ on:
 jobs:
   analyze:
     name: Analyze
-    if: github.repository == 'photoview/photoview'
     runs-on: ubuntu-latest
 
     strategy:
