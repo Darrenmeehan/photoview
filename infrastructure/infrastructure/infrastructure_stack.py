@@ -1,6 +1,6 @@
 from aws_cdk import core
 from aws_cdk import (core, aws_ec2 as ec2, aws_ecs as ecs,
-                     aws_ecs_patterns as ecs_patterns, aws_ssm)
+                     aws_ecs_patterns as ecs_patterns)
 
 from aws_cdk import aws_servicediscovery
 class InfrastructureStack(core.Stack):
@@ -82,11 +82,6 @@ class InfrastructureStack(core.Stack):
         # FIXME Add in https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/ContainerDependency.html
         # https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/DockerVolumeConfiguration.html
         # https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/Secret.html
-        db_connection_string = aws_ssm.StringParameter.from_string_parameter_name(
-            self,
-            id="dbConn",
-            string_parameter_name="photoview-db-connection-string",
-        )
         ecs_patterns.ApplicationLoadBalancedEc2Service(self, "MyPhotoService",
             cluster=cluster,            # Required
             cpu=256,                    # Default is 256
@@ -95,13 +90,10 @@ class InfrastructureStack(core.Stack):
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
                 image=ecs.ContainerImage.from_registry("viktorstrate/photoview:1"),
                 environment={
-                    # "MYSQL_URL": "photoview:photo-secret@tcp(db.svc.test.local)/photoview",
+                    "MYSQL_URL": "photoview:photo-secret@tcp(db.svc.test.local)/photoview",
                     "API_LISTEN_IP": "photoview",
                     "API_LISTEN_PORT": "80",
                     "PHOTO_CACHE": "/app/cache",
-                },
-                secrets={
-                    "MYSQL_URL": ecs.Secret.from_ssm_parameter(db_connection_string)
                 },
                 enable_logging=True,
             ),
