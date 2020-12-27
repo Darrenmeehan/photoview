@@ -79,10 +79,6 @@ class InfrastructureStack(core.Stack):
             namespace=sd_namespace,
             load_balancer=True
         )
-        app_port_mapping = ecs.PortMapping(
-            container_port=24,
-            host_port=24,
-        )
         # FIXME Add in https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/ContainerDependency.html
         # https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/DockerVolumeConfiguration.html
         # https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs/Secret.html
