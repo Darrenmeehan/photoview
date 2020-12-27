@@ -8,9 +8,6 @@ class InfrastructureStack(core.Stack):
     def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        # The code that defines your stack goes here
-        # vpc = ec2.Vpc(self, "MyVpc", max_azs=3)     # default is all AZs in region
-
         vpc = ec2.Vpc(self, "MyVpc",
             # 'cidr' configures the IP range and size of the entire VPC.
             # The IP space will be divided over the configured subnets.
