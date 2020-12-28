@@ -61,6 +61,7 @@ class InfrastructureStack(core.Stack):
             desired_capacity=1,
             max_capacity=1,
             min_capacity=1,
+            machine_image_type=ecs.MachineImageType.BOTTLEROCKET,
             instance_type=instance_type,
         )
         cluster = ecs.Cluster(
