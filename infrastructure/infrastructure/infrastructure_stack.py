@@ -66,7 +66,7 @@ class InfrastructureStack(core.Stack):
         )
         cluster = ecs.Cluster(
             self,
-            "MyCluster",
+            "PhotoView",
             vpc=vpc,
             capacity=capacity_options,
         )
