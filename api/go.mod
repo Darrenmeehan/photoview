@@ -22,7 +22,7 @@ require (
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/vektah/gqlparser/v2 v2.1.0
+	github.com/vektah/gqlparser/v2 v2.2.0
 	github.com/wsxiaoys/terminal v0.0.0-20160513160801-0940f3fc43a0
 	github.com/xor-gate/goexif2 v1.1.0
 	golang.org/x/crypto v0.0.0-20201203163018-be400aefbc4c
